@@ -1,14 +1,13 @@
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
+
 const CANVAS_WIDTH = (canvas.width = 800);
-const CANVAS_HEIGHT = (canvas.height = 700);
+let CANVAS_HEIGHT = (canvas.height = 700);
 
 const levelOne = document.getElementById("level-one");
 const levelTwo = document.getElementById("level-two");
 
 let gameSpeed = 1;
-let x = 0;
-let x2 = 2400;
 
 // first background image
 
@@ -46,41 +45,61 @@ const backgroundLayer_5 = new Image();
 backgroundLayer_5.src =
   "https://github.com/Florin12er/game-2/blob/main/assets/layer5.png?raw=true";
 
+class Layer {
+  constructor(image, speedModifier) {
+    this.x = 0;
+    this.y = 0;
+    this.width = 2400;
+    this.height = 700;
+    this.x2 = this.width;
+    this.image = image;
+    this.speedModifier = speedModifier;
+    this.speed = gameSpeed * this.speedModifier;
+  }
+  update() {
+    this.speed = gameSpeed * this.speedModifier;
+    if (this.x <= -this.width) this.x = this.width + this.x2 - this.speed;
+    if (this.x2 <= -this.width) this.x2 = this.width + this.x - this.speed;
+    this.x = Math.floor(this.x - this.speed);
+    this.x2 = Math.floor(this.x2 - this.speed);
+  }
+  draw() {
+    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    ctx.drawImage(this.image, this.x2, this.y, this.width, this.height);
+  }
+}
+const Layer1 = new Layer(backgroundLayer1, 0.2);
+const Layer2 = new Layer(backgroundLayer2, 0.4);
+const Layer3 = new Layer(backgroundLayer3, 0.6);
+const Layer4 = new Layer(backgroundLayer4, 0.8);
+const Layer5 = new Layer(backgroundLayer5, 1);
+
+const LayerObject = [Layer1, Layer2, Layer3, Layer4, Layer5];
+
+const Layer_1 = new Layer(backgroundLayer_1, 0.2);
+const Layer_2 = new Layer(backgroundLayer_2, 0.4);
+const Layer_3 = new Layer(backgroundLayer_3, 0.6);
+const Layer_4 = new Layer(backgroundLayer_4, 0.8);
+const Layer_5 = new Layer(backgroundLayer_5, 1);
+
+const layerArray = [Layer_1, Layer_2, Layer_3, Layer_4, Layer_5];
+
 function animate() {
+  CANVAS_HEIGHT = canvas.height = 700;
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-  ctx.drawImage(backgroundLayer1, x, 0);
-  ctx.drawImage(backgroundLayer1, x2, 0);
-  ctx.drawImage(backgroundLayer2, x, 0);
-  ctx.drawImage(backgroundLayer2, x2, 0);
-  ctx.drawImage(backgroundLayer3, x, 0);
-  ctx.drawImage(backgroundLayer3, x2, 0);
-  ctx.drawImage(backgroundLayer4, x, 0);
-  ctx.drawImage(backgroundLayer4, x2, 0);
-  ctx.drawImage(backgroundLayer5, x, 0);
-  ctx.drawImage(backgroundLayer5, x2, 0);
-  if (x < -2390) x = 2390 - gameSpeed;
-  else x -= gameSpeed;
-  if (x2 < -2390) x2 = 2390 - gameSpeed;
-  else x2 -= gameSpeed;
+  LayerObject.forEach((object) => {
+    object.update();
+    object.draw();
+  });
   requestAnimationFrame(animate);
 }
 
 function animateTwo() {
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-  ctx.drawImage(backgroundLayer_1, x, 0);
-  ctx.drawImage(backgroundLayer_1, x2, 0);
-  ctx.drawImage(backgroundLayer_2, x, 0);
-  ctx.drawImage(backgroundLayer_2, x2, 0);
-  ctx.drawImage(backgroundLayer_3, x, 0);
-  ctx.drawImage(backgroundLayer_3, x2, 0);
-  ctx.drawImage(backgroundLayer_4, x, 0);
-  ctx.drawImage(backgroundLayer_4, x2, 0);
-  ctx.drawImage(backgroundLayer_5, x, 0);
-  ctx.drawImage(backgroundLayer_5, x2, 0);
-  if (x < -2000) x = 2000 - gameSpeed;
-  else x -= gameSpeed;
-  if (x2 < -2000) x2 = 2000 - gameSpeed;
-  else x2 -= gameSpeed;
+  layerArray.forEach((object) => {
+    object.update();
+    object.draw();
+  });
   requestAnimationFrame(animateTwo);
 }
 
