@@ -3,10 +3,15 @@ const ctx = canvas.getContext("2d");
 const CANVAS_WIDTH = (canvas.width = 800);
 const CANVAS_HEIGHT = (canvas.height = 700);
 
+const levelOne = document.getElementById("level-one");
+const levelTwo = document.getElementById("level-two");
+
 let gameSpeed = 1;
 let x = 0;
 let x2 = 2400;
+
 // first background image
+
 const backgroundLayer1 = new Image();
 backgroundLayer1.src =
   "https://github.com/Florin12er/game-2/blob/main/assets/layer-1.png?raw=true";
@@ -22,6 +27,7 @@ backgroundLayer4.src =
 const backgroundLayer5 = new Image();
 backgroundLayer5.src =
   "https://github.com/Florin12er/game-2/blob/main/assets/layer-5.png?raw=true";
+
 // second background image
 
 const backgroundLayer_1 = new Image();
@@ -52,10 +58,35 @@ function animate() {
   ctx.drawImage(backgroundLayer4, x2, 0);
   ctx.drawImage(backgroundLayer5, x, 0);
   ctx.drawImage(backgroundLayer5, x2, 0);
-  if (x < -2390) x = 2390;
+  if (x < -2390) x = 2390 - gameSpeed;
   else x -= gameSpeed;
-  if (x2 < -2390) x = 2390;
+  if (x2 < -2390) x2 = 2390 - gameSpeed;
   else x2 -= gameSpeed;
   requestAnimationFrame(animate);
 }
-animate();
+
+function animateTwo() {
+  ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+  ctx.drawImage(backgroundLayer_1, x, 0);
+  ctx.drawImage(backgroundLayer_1, x2, 0);
+  ctx.drawImage(backgroundLayer_2, x, 0);
+  ctx.drawImage(backgroundLayer_2, x2, 0);
+  ctx.drawImage(backgroundLayer_3, x, 0);
+  ctx.drawImage(backgroundLayer_3, x2, 0);
+  ctx.drawImage(backgroundLayer_4, x, 0);
+  ctx.drawImage(backgroundLayer_4, x2, 0);
+  ctx.drawImage(backgroundLayer_5, x, 0);
+  ctx.drawImage(backgroundLayer_5, x2, 0);
+  if (x < -2000) x = 2000 - gameSpeed;
+  else x -= gameSpeed;
+  if (x2 < -2000) x2 = 2000 - gameSpeed;
+  else x2 -= gameSpeed;
+  requestAnimationFrame(animateTwo);
+}
+
+levelOne.addEventListener("click", () => {
+  animate();
+});
+levelTwo.addEventListener("click", () => {
+  animateTwo();
+});
