@@ -3,10 +3,13 @@ body {
   padding: 0;
   display: grid;
   justify-content: center;
+  background: black;
+  color: white;
 }
 
 canvas {
-  position: absolute;
+  color: white;
+  position: relative;
   border: 3px solid black;
   width: 800px;
   height: 700px;
@@ -14,17 +17,31 @@ canvas {
   top: 47%;
   left: 50%;
 }
-
 button {
   position: relative;
   padding: 10px;
   font-size: 30px;
-  top: 670px;
+  left: 500px;
   margin-left: 10px;
+  bottom: 10px;
 }
 h1 {
+  margin: 20px;
   position: relative;
-  bottom: 22px;
   font-size: 50px;
-  left: 20%;
+  left: 40%;
+}
+
+#container {
+  position: absolute;
+  bottom: 10px;
+}
+
+input {
+  width: 500px;
+  margin-bottom: 18px;
+}
+
+div {
+  font-size: 20px;
 }
